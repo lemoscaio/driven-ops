@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+  driven_ops_db:
+    container_name: driven_ops_db
+    image: postgres
+    restart: always
+    ports:
+      - 2345:5432
+    env_file:
+      - "./back-end/.env"
+    networks:
+      - driven_ops_network
+    volumes:
+      - driven_ops_postgres:/var/lib/postgresql/data
+
+  driven_ops_node_app:
+    container_name: driven_ops_node_app
+    build:
+      context: .
+      dockerfile: "./back-end/docker/node_app.dockerfile"
+    ports:
+      - 5000:5000
+    depends_on:
+      - driven_ops_db
+    env_file:
+      - "./back-end/.env"
+    networks:
+      - driven_ops_network
+
+  app_react:
+    build:
+      context: .
+      dockerfile: "./front-end/docker/react.dockerfile"
+    container_name: app_react
+    env_file:
+      - "./front-end/.env"
+    networks:
+      - driven_ops_network
+    volumes:
+      - driven_ops_build_react:/var/www/html
+
+  driven_ops_nginx:
+    build:
+      context: .
+      dockerfile: "./front-end/docker/nginx.dockerfile"
+    container_name: driven_ops_nginx
+    ports:
+      - 80:80
+    networks:
+      - driven_ops_network
+    volumes:
+      - driven_ops_build_react:/var/www/html
+    depends_on:
+      - driven_ops_db
+      - driven_ops_node_app
+      - app_react
+
+volumes:
+  driven_ops_postgres:
+  driven_ops_build_react:
+
+
+networks:
+  driven_ops_network:
+    driver: bridge
