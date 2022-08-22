@@ -8,8 +8,6 @@ services:
     restart: always
     ports:
       - 2345:5432
-    env_file:
-      - "./back-end/.env.test"
     networks:
       - driven_ops_network-test
 
@@ -22,8 +20,6 @@ services:
       - 5000:5000
     depends_on:
       - driven_ops_db-test
-    env_file:
-      - "./back-end/.env.test"
     networks:
       - driven_ops_network-test
 
