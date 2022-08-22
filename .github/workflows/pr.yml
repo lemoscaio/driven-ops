@@ -11,10 +11,10 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_POSTGRES_USER: postgres
-          envkey_POSTGRES_PASSWORD: postgres
-          envkey_POSTGRES_DB: students_test
-          envkey_DATABASE_URL: postgres://postgres:postgres@driven_ops_db-test:5432/students_test
+          envkey_POSTGRES_USER: "postgres"
+          envkey_POSTGRES_PASSWORD: "postgres"
+          envkey_POSTGRES_DB: "students_test"
+          envkey_DATABASE_URL: "postgres://postgres:postgres@driven_ops_db-test:5432/students_test"
           directory: ./back-end
           file_name: .env.test
       - name: Run tests
