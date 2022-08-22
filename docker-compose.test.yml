@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  driven_ops_db-test:
+    container_name: driven_ops_db-test
+    image: postgres
+    restart: always
+    ports:
+      - 2345:5432
+    env_file:
+      - "./back-end/.env.test"
+    networks:
+      - driven_ops_network-test
+
+  driven_ops_node_app-test:
+    container_name: driven_ops_node_app-test
+    build:
+      context: .
+      dockerfile: "./back-end/docker/node_app.dev.dockerfile"
+    ports:
+      - 5000:5000
+    depends_on:
+      - driven_ops_db-test
+    env_file:
+      - "./back-end/.env.test"
+    networks:
+      - driven_ops_network-test
+
+networks:
+  driven_ops_network-test:
+    driver: bridge
