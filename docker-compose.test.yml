@@ -4,7 +4,7 @@ services:
 
   driven_ops_db-test:
     container_name: driven_ops_db-test
-    image: postgres
+    image: postgres:13
     restart: always
     ports:
       - 2345:5432
