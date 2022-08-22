@@ -8,6 +8,7 @@ services:
     restart: always
     ports:
       - 2345:5432
+
     networks:
       - driven_ops_network-test
 
@@ -15,7 +16,7 @@ services:
     container_name: driven_ops_node_app-test
     build:
       context: .
-      dockerfile: "./back-end/docker/node_app.dev.dockerfile"
+      dockerfile: "./back-end/docker/node_app.dockerfile"
     ports:
       - 5000:5000
     depends_on:
